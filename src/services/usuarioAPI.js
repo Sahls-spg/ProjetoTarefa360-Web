@@ -53,7 +53,7 @@ const UsuarioAPI = {
                 Id: id,
                 Nome: nome,
                 Email: email
-            },
+            };
             const response = await HTTPCLIENT.put(`/Usuario/Atualizar`, usuarioAtualizar);
             return response.data;
         }
@@ -121,3 +121,5 @@ const UsuarioAPI = {
         }
     }
 }
+
+export default UsuarioAPI;
