@@ -27,11 +27,12 @@ const UsuarioAPI = {
             throw error;
         }
     },
-    async criarAsync(nome, email, senha)
+    async criarAsync(nome, email, senha, tipoUsuarioId)
     {
         try
         {
             const usuarioCriar = {
+                TipoUsuarioId: tipoUsuarioId,
                 Nome: nome,
                 Email: email,
                 Senha: senha
@@ -80,7 +81,7 @@ const UsuarioAPI = {
     {
         try
         {
-            const response = await HTTPCLIENT.get(`/Usuario/ListarTipoUsuarios`)
+            const response = await HTTPCLIENT.get(`/Usuario/ListarTiposUsuarios`)
             return response.data;
         }
         catch(error)
