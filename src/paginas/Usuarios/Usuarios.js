@@ -51,7 +51,7 @@ export function Usuarios() {
                                         <td>{usuario.nome}</td>
                                         <td>{usuario.email}</td>
                                         <td>
-                                            <Link to='usuario/editar' state={usuario.id} className={style.botao_editar}>
+                                            <Link to='/usuario/editar' state={usuario.id} className={style.botao_editar}>
                                                 <MdEdit />
                                             </Link>
                                             <Link to='/usuario/deletar' state={usuario.id} className={style.botao_deletar}>
