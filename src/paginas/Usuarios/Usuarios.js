@@ -6,9 +6,41 @@ import { Table } from "react-bootstrap";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useEffect, useState } from "react";
 import UsuarioAPI from "../../services/usuarioAPI"
+import Modal from "react-bootstrap/modal"
+import Button from "react-bootstrap/Button"
+
 
 export function Usuarios() {
     const [usuarios, setUsuarios] = useState([]);
+    const [mostrarModal, setMostrarModal] = useState(false);
+    const [usuarioSelecionado, setUsuarioSelecionado] = useState(null);
+
+    const handleClickDeletar = (usuario) =>
+    {
+        setUsuarioSelecionado(usuario)
+        setMostrarModal(true);
+    };
+
+    const handleDeletar = async () => {
+        try
+        {
+            await UsuarioAPI.deletarAsync(usuarioSelecionado.id);
+            setUsuarios(usuarios.filter(u => u.id !== usuarioSelecionado.id));
+        }
+        catch(error)
+        {
+            console.log("Erro ao deletar usuário", error)
+        }
+        finally
+        {
+            handleFecharModal();
+        }
+    }
+
+    const handleFecharModal = () => {
+        setMostrarModal(false);
+        setUsuarioSelecionado(null);
+    }
 
     async function carregarUsuarios() 
     {
@@ -51,18 +83,37 @@ export function Usuarios() {
                                         <td>{usuario.nome}</td>
                                         <td>{usuario.email}</td>
                                         <td>
-                                            <Link to='usuario/editar' state={usuario.id} className={style.botao_editar}>
+                                            <Link to='/usuario/editar' state={usuario.id} className={style.botao_editar}>
                                                 <MdEdit />
                                             </Link>
-                                            <Link to='/usuario/deletar' state={usuario.id} className={style.botao_deletar}>
+                                            <button onClick={() => handleClickDeletar(usuario)} className={style.botao_deletar}>
                                                 <MdDelete/>
-                                            </Link>
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </Table>
                     </div>
+
+                    <Modal show={mostrarModal} onHide={handleFecharModal}>
+                        <Modal.Header closeButtom>
+                            <Modal.Title>Confirmar</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            Tem certeza que deseja deletar o usuário {usuarioSelecionado?.nome}?
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleFecharModal}>
+                                Cancelar
+                            </Button>
+
+                            <Button variant="danger" onClick={handleDeletar}>
+                                Deletar
+                            </Button>
+                        </Modal.Footer>
+
+                    </Modal>
                 </div>
             </Topbar>
         </Sidebar>

@@ -21,11 +21,7 @@ export function NovoUsuario() {
             try
             {
                 const tipos = await UsuarioAPI.listarTiposUsuariosAsync();
-                const tiposArray = Object.entries(tipos).map(([nome, id]) => ({
-                    nome,
-                    id,
-                }));
-                setTiposUsuarios(tiposArray);
+                setTiposUsuarios(tipos);
             }
             catch (error)
             {
@@ -102,7 +98,7 @@ export function NovoUsuario() {
 
                                 <option value=""> Selecione o tipo de usuário</option>
                                 {tiposUsuarios.map((tipo) => (
-                                    <option key={tipo.nome} value={tipo.id}>{tipo.nome}</option>
+                                    <option key={tipo} value={tipo}>{tipo}</option>
                                 ))}
                             </Form.Control>
                         </Form.Group>

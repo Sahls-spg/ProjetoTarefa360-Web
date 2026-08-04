@@ -27,15 +27,15 @@ const UsuarioAPI = {
             throw error;
         }
     },
-    async criarAsync(nome, email, senha, tipoUsuarioId)
+    async criarAsync(nome, email, senha, tipoUsuario)
     {
         try
         {
             const usuarioCriar = {
-                TipoUsuarioId: tipoUsuarioId,
                 Nome: nome,
                 Email: email,
-                Senha: senha
+                Senha: senha,
+                TipoUsuario: tipoUsuario
             };
             const response = await HTTPCLIENT.post(`/Usuario/Criar`, usuarioCriar);
             return response.data;
@@ -81,7 +81,7 @@ const UsuarioAPI = {
     {
         try
         {
-            const response = await HTTPCLIENT.get(`/Usuario/ListarTiposUsuarios`)
+            const response = await HTTPCLIENT.get(`/Usuario/ListarTipoUsuarios`)
             return response.data;
         }
         catch(error)
